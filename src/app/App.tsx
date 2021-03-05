@@ -1,13 +1,13 @@
 import React from 'react';
-import {SearchComponent} from "../features/search/SearchComponent";
+import {SearchContainer} from "../features/search/SearachContainer";
 
 function App() {
 
     return (
-      <div>
-      <SearchComponent/>
-      </div>
-  );
+        <div>
+            <SearchContainer/>
+        </div>
+    );
 }
 
 export default App;
