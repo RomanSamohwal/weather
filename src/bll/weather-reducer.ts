@@ -1,4 +1,4 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {ApiWeather} from "../api/api-weater";
 import {addCity} from "./cities-reducer";
 
@@ -16,19 +16,27 @@ export const fetchWeather = createAsyncThunk(
 const slice = createSlice({
     name: 'weathers',
     initialState: {},
-    reducers: {},
+    reducers: {
+        addWeathers(state, action: PayloadAction<{ weathers: any }>) {
+            return action.payload.weathers
+        }
+    },
     extraReducers: builder => {
         builder.addCase(fetchWeather.fulfilled, (state, action) => {
-            // @ts-ignore
-            state[action.payload.city].push(action.payload.weather)
+            if (action.payload?.city !== undefined) {
+                // @ts-ignore
+                state[action.payload.city].push(action.payload.weather)
+            }
         })
 
         builder.addCase(addCity, (state, action) => {
-            // @ts-ignore
-            state[action.payload.city] = []
+            if (action.payload.city !== undefined) {
+                // @ts-ignore
+                state[action.payload.city] = []
+            }
         });
     }
 })
 
 export const weathersReducer = slice.reducer
-export const {} = slice.actions
+export const {addWeathers} = slice.actions

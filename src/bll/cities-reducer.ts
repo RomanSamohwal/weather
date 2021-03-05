@@ -14,25 +14,31 @@ export const fetchSearchCities = createAsyncThunk(
 const slice = createSlice({
         name: 'cites',
         initialState: {
-            trackCities: [],
+            trackCities: [] as trackCitiesType,
             searchCities: []
         },
         reducers: {
             addCity(state, action: PayloadAction<{ city: string }>) {
-                // @ts-ignore
-                state.trackCities.push(action.payload.city)
+                let findCity = state.trackCities.find(e => e === action.payload.city)
+                if (!findCity) {
+                    state.trackCities.push(action.payload.city)
+                }
+            },
+            addTrackCities(state, action: PayloadAction<{ cities: trackCitiesType }>) {
+                state.trackCities = action.payload.cities
             }
         },
         extraReducers: builder => {
             builder.addCase(fetchSearchCities.fulfilled, (state, action) => {
-                if (action.payload !== undefined) {
                     // @ts-ignore
                     state.searchCities = action.payload
-                }
             })
         }
     }
 )
 
 export const citiesReducer = slice.reducer
-export const {addCity} = slice.actions
+export const {addCity,addTrackCities} = slice.actions
+
+
+type trackCitiesType = Array<string>
