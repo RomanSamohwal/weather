@@ -6,19 +6,18 @@ export const saveWeathers = (state: any) => {
     localStorage.setItem('weathers', JSON.stringify(state));
 };
 
-/*export const restoreCities = async () => {
+export const restoreCities =  () => {
     if (localStorage.getItem('cities') === null) {
-        return initProcess
+        return []
     } else {
-        return JSON.parse(<string>localStorage.getItem('processes'))
+        return JSON.parse(<string>localStorage.getItem('cities'))
     }
-};*/
+};
 
-/*
-export const restoreJobs =  () => {
-    if (localStorage.getItem('jobs') === null) {
-        return initJobs
+export const restoreWeathers =  () => {
+    if (localStorage.getItem('weathers') === null) {
+        return {}
     } else {
-        return JSON.parse(<string>localStorage.getItem('jobs'))
+        return JSON.parse(<string>localStorage.getItem('weathers'))
     }
-};*/
+};
