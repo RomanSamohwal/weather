@@ -18,10 +18,10 @@ const slice = createSlice({
             searchCities: []
         },
         reducers: {
-            addCity(state, action: PayloadAction<{ city: string }>) {
-                let findCity = state.trackCities.find(e => e === action.payload.city)
+            addCity(state, action: PayloadAction<{ cityId: number }>) {
+                let findCity = state.trackCities.find(e => e === action.payload.cityId)
                 if (!findCity) {
-                    state.trackCities.push(action.payload.city)
+                    state.trackCities.unshift(action.payload.cityId)
                 }
             },
             addTrackCities(state, action: PayloadAction<{ cities: trackCitiesType }>) {
@@ -30,15 +30,15 @@ const slice = createSlice({
         },
         extraReducers: builder => {
             builder.addCase(fetchSearchCities.fulfilled, (state, action) => {
-                    // @ts-ignore
-                    state.searchCities = action.payload
+                // @ts-ignore
+                state.searchCities = action.payload
             })
         }
     }
 )
 
 export const citiesReducer = slice.reducer
-export const {addCity,addTrackCities} = slice.actions
+export const {addCity, addTrackCities} = slice.actions
 
 
-type trackCitiesType = Array<string>
+type trackCitiesType = Array<number>

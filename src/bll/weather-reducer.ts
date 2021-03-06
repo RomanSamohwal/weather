@@ -7,7 +7,9 @@ export const fetchWeather = createAsyncThunk(
     async (city: string, thunkAPI) => {
         try {
             const weather = await ApiWeather.getWeatherCheckedCity(city)
-            return {city, weather}
+            thunkAPI.dispatch(addCity({cityId: weather.id}))
+            console.log(weather)
+            return {weather}
         } catch (e) {
 
         }
@@ -15,7 +17,7 @@ export const fetchWeather = createAsyncThunk(
 
 const slice = createSlice({
     name: 'weathers',
-    initialState: {},
+    initialState: {} as InitType,
     reducers: {
         addWeathers(state, action: PayloadAction<{ weathers: any }>) {
             return action.payload.weathers
@@ -23,16 +25,16 @@ const slice = createSlice({
     },
     extraReducers: builder => {
         builder.addCase(fetchWeather.fulfilled, (state, action) => {
-            if (action.payload?.city !== undefined) {
+            /*if (action.payload?.weather.cityId !== undefined) {*/
                 // @ts-ignore
-                state[action.payload.city].push(action.payload.weather)
-            }
+                state[action.payload.weather.id] = action.payload.weather
+           /* }*/
         })
 
         builder.addCase(addCity, (state, action) => {
-            if (action.payload.city !== undefined) {
+            if (action.payload.cityId !== undefined) {
                 // @ts-ignore
-                state[action.payload.city] = []
+                state[action.payload.cityId] = {}
             }
         });
     }
@@ -40,3 +42,21 @@ const slice = createSlice({
 
 export const weathersReducer = slice.reducer
 export const {addWeathers} = slice.actions
+
+export type InitType = {
+  [key: string]: WeatherObj
+}
+
+export type WeatherObj = {
+    id: number
+    name: string
+    temp: number
+    temp_min: number
+    temp_max: number
+    humidity: number
+    wind: number
+    deg: number
+    pressure: number
+    date: string
+    icon: string
+}

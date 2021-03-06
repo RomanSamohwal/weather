@@ -1,6 +1,6 @@
 import React, {ChangeEvent, useCallback, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {addCity, fetchSearchCities} from '../../bll/cities-reducer';
+import {fetchSearchCities} from '../../bll/cities-reducer';
 import {AppRootStateType} from '../../bll/store';
 import {City, MatchingAlterNames} from "../../api/api-city";
 import {fetchWeather} from '../../bll/weather-reducer';
@@ -8,7 +8,7 @@ import {InputSearch} from '../../components/InputSearch';
 
 export const SearchComponent = () => {
 
-    let searchCities = useSelector<AppRootStateType>(state => state.cities.searchCities)
+    let searchCities : any = useSelector<AppRootStateType>(state => state.cities.searchCities)
 
     const dispatch = useDispatch()
     const [value, setValue] = useState('')
@@ -21,20 +21,18 @@ export const SearchComponent = () => {
 
     const onSearchHandler = useCallback(() => {
         if (value !== '') {
+            debugger
             dispatch(fetchWeather(value))
-            dispatch(addCity({city: value}))
             setValue('')
         }
     }, [value, flag])
 
-    // @ts-ignore
-    const citesNewArray = searchCities.map((city: City) => {
-        return <div onClick={() => {
-            onAutocompleteHandler(city.matching_alternate_names[0])
-             }} key={city.matching_full_name}>
+    const citesNewArray = searchCities.map((city: City) => <div
+            onClick={() => {onAutocompleteHandler(city.matching_alternate_names[0])}}
+            key={city.matching_full_name}>
             {city.matching_full_name}
-        </div>
-    })
+    </div>
+    )
 
     const onHandlerSearch = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         setValue(e.currentTarget.value.trim())

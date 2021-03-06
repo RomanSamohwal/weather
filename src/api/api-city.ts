@@ -12,6 +12,7 @@ export const ApiCity = {
     }
 }
 
+//types
 type responseCities = {
     _embedded: citySearchResults
 }

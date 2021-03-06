@@ -1,30 +1,41 @@
 import React, {useEffect, useState} from 'react';
-import {SearchContainer} from '../features/search/SearachContainer';
-import { restoreCities,restoreWeathers } from '../utils/localStorage';
-import {useDispatch} from "react-redux";
-import { addTrackCities } from '../bll/cities-reducer';
-import { addWeathers } from '../bll/weather-reducer';
+import {restoreCities, restoreWeathers, saveCities, saveWeathers} from '../utils/localStorage';
+import {useDispatch, useSelector} from "react-redux";
+import {addTrackCities} from '../bll/cities-reducer';
+import {addWeathers, InitType} from '../bll/weather-reducer';
+import {WeathersDisplayContainer} from '../features/weathers/WeathersDisplayContainer';
+import {Temperatures} from "../features/temperature/Temperatures";
+import {AppRootStateType} from "../bll/store";
+import {SearchComponent} from "../features/search/SearchComponent";
 
 function App() {
+
+    let weathers: InitType | any = useSelector<AppRootStateType>(state => state.weathers)
+    let cities: Array<number> | any = useSelector<AppRootStateType>(state => state.cities.trackCities)
 
     const dispatch = useDispatch()
     const [firstLoading, setFirstLoading] = useState(true)
 
     useEffect(() => {
         if (firstLoading) {
-            let cities = restoreCities()
-            let weathers = restoreWeathers()
-            dispatch(addTrackCities({cities}))
-            dispatch(addWeathers({weathers}))
-            console.log(cities)
-            console.log(weathers)
+            dispatch(addTrackCities({cities: restoreCities()}))
+            dispatch(addWeathers({weathers: restoreWeathers()}))
             setFirstLoading(false)
         }
     }, [firstLoading, dispatch])
 
+    useEffect(() => {
+        if (!firstLoading) {
+            saveCities(cities)
+            saveWeathers(weathers)
+        }
+    }, [cities, weathers])
+
     return (
         <div>
-            <SearchContainer firstLoading = {firstLoading}/>
+            <Temperatures weathers = {weathers}/>
+            <SearchComponent/>
+            <WeathersDisplayContainer cities = {cities} weathers = {weathers}/>
         </div>
     );
 }
