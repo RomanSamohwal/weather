@@ -6,8 +6,8 @@ export const updateWeatherAll = createAsyncThunk(
     'weathers/updateWeatherAll',
     async (param: {cities: Array<number>, weathers: WeathersType}  ,thunkAPI) => {
         try {
-            const weather = await ApiWeather.updateCheckedWeatherCityAll(param.cities, param.weathers)
-            /*return {weather}*/
+            const weathers = await ApiWeather.updateCheckedWeatherCityAll(param.cities, param.weathers)
+            return {weathers}
         } catch (e) {
 
         }
@@ -69,6 +69,11 @@ const slice = createSlice({
                 // @ts-ignore
                 state[action.payload.weather.id] = action.payload.weather
             /*}*/
+        });
+
+        builder.addCase(updateWeatherAll.fulfilled, (state, action) => {
+            // @ts-ignore
+            return action.payload.weathers
         });
     }
 })
