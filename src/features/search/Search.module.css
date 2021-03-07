@@ -1,13 +1,15 @@
 .container {
-    width: 40%;
-    margin: 30px auto;
     overflow: hidden;
 }
-.suggestion{
-    width: 40%;
+
+.suggestion {
+    background-color: #999999;
+    min-width: 30vw;
     cursor: pointer;
+    position: absolute;
+    z-index: 1;
 }
 
-.suggestion > div:hover{
-    background-color: #999;
+.suggestion > div:hover {
+    background-color: white;
 }

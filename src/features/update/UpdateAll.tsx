@@ -1,15 +1,15 @@
-import React from 'react';
-import {updateWeatherAll} from '../../bll/weather-reducer';
+import React, {useCallback} from 'react';
+import {Checkbox} from "@material-ui/core";
 
-export const UpdateAllComponent = (props: any) => {
+export const UpdateAllComponent = React.memo((props: any) => {
 
-    const onclickHandler = () => {
-       setTimeout(() => {
-         props.dispatch(updateWeatherAll({cities: props.cities, weathers: props.weathers}))
-       },1000)
-    }
+    const onclickHandler = useCallback(() => {
+        setTimeout(() => {
+            props.onClickHandler()
+        }, 1000)
+    }, [props.onClickHandler])
 
     return <div>
-        <button onClick={onclickHandler}>обновить все чере 5с</button>
+       <span>автообновление 5с</span> <Checkbox onClick={onclickHandler}/>
     </div>
-}
+})

@@ -1,16 +1,15 @@
 import React, {ChangeEvent, useCallback, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {fetchSearchCities} from '../../bll/cities-reducer';
 import {AppRootStateType} from '../../bll/store';
 import {City, MatchingAlterNames} from "../../api/api-city";
 import {fetchWeather} from '../../bll/weather-reducer';
-import {InputSearch} from '../../components/InputSearch';
+import {InputSearch} from "../../components/InputSearch";
 
-export const SearchComponent = () => {
+export const SearchComponent = (props: any) => {
 
     let searchCities : any = useSelector<AppRootStateType>(state => state.cities.searchCities)
 
-    const dispatch = useDispatch()
     const [value, setValue] = useState('')
     const [flag, setFlag] = useState(false)
 
@@ -21,8 +20,7 @@ export const SearchComponent = () => {
 
     const onSearchHandler = useCallback(() => {
         if (value !== '') {
-            debugger
-            dispatch(fetchWeather(value))
+            props.dispatch(fetchWeather(value))
             setValue('')
         }
     }, [value, flag])
@@ -37,7 +35,7 @@ export const SearchComponent = () => {
     const onHandlerSearch = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         setValue(e.currentTarget.value.trim())
         if (e.currentTarget.value.length >= 3) {
-            dispatch(fetchSearchCities(e.currentTarget.value))
+             props.dispatch(fetchSearchCities(e.currentTarget.value))
             setFlag(true)
         } else {
             setFlag(false)
