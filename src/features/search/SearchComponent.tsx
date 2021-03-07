@@ -42,7 +42,11 @@ export const SearchComponent = (props: any) => {
         }
     }, [value, flag])
 
-    return <InputSearch value={value} onHandlerSearch={onHandlerSearch}
-                        citesNewArray={citesNewArray} flag={flag}
-                        onSearchHandler={onSearchHandler}/>
+    return <div style={{width: '100vw', display: 'flex', justifyContent: 'center'}}>
+        <div>
+            <InputSearch value={value} onHandlerSearch={onHandlerSearch}
+                         citesNewArray={citesNewArray} flag={flag}
+                         onSearchHandler={onSearchHandler}/>
+        </div>
+    </div>
 }

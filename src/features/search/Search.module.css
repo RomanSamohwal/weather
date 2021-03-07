@@ -1,4 +1,5 @@
 .container {
+    width: 100%;
     overflow: hidden;
 }
 
@@ -11,5 +12,5 @@
 }
 
 .suggestion > div:hover {
-    background-color: white;
+    background-color: rgba(154,180,246,0.76);
 }

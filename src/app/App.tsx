@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {restoreCities, restoreWeathers, saveCities, saveWeathers} from '../utils/localStorage';
 import {useDispatch, useSelector} from "react-redux";
 import {addTrackCities} from '../bll/cities-reducer';
@@ -9,6 +9,27 @@ import {AppRootStateType} from "../bll/store";
 import {SearchComponent} from "../features/search/SearchComponent";
 import {UpdateAllComponent} from '../features/update/UpdateAll';
 
+export function useInterval(callback: any, delay : any) {
+    const savedCallback = useRef();
+
+    useEffect(() => {
+        savedCallback.current = callback;
+    }, [callback]);
+
+    // Set up the interval.
+    useEffect(() => {
+        function tick() {
+            // @ts-ignore
+            savedCallback.current();
+        }
+        if (delay !== null) {
+            let id = setInterval(tick, delay);
+            return () => clearInterval(id);
+        }
+    }, [delay]);
+}
+
+
 function App() {
 
     let weathers: WeathersType | any = useSelector<AppRootStateType>(state => state.weathers)
@@ -17,9 +38,9 @@ function App() {
     const dispatch = useDispatch()
     const [firstLoading, setFirstLoading] = useState(true)
 
-    const onUpdateAllHandler = useCallback(() => {
+    const onUpdateAllHandler = () => {
         dispatch(updateWeatherAll({cities: cities, weathers: weathers}))
-    }, [cities, weathers])
+    }
 
     useEffect(() => {
         if (firstLoading) {
@@ -36,20 +57,14 @@ function App() {
         }
     }, [cities, weathers])
 
-  /*  useEffect(() => {
-        setInterval(() => {
-            onUpdateAllHandler()
-        }, 3000)
-    }, [])*/
+    /*useInterval(onUpdateAllHandler,3000)*/
 
-    return (
-        <div>
-             <Temperatures weathers={weathers}/>
-            <SearchComponent dispatch = {dispatch}/>
+    return <>
+            <Temperatures weathers={weathers}/>
+            <SearchComponent dispatch={dispatch}/>
             <UpdateAllComponent onClickHandler={onUpdateAllHandler}/>
             <WeathersDisplayContainer cities={cities} weathers={weathers}/>
-        </div>
-    );
+        </>
 }
 
 export default App;

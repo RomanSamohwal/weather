@@ -9,7 +9,7 @@ export const UpdateAllComponent = React.memo((props: any) => {
         }, 1000)
     }, [props.onClickHandler])
 
-    return <div>
-       <span>автообновление 5с</span> <Checkbox onClick={onclickHandler}/>
+    return <div style={{width: '100vw', display: 'flex', justifyContent: 'center'}}>
+        <div>автообновление 5с <Checkbox onClick={onclickHandler}/></div>
     </div>
 })

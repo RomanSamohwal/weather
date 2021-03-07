@@ -1,8 +1,18 @@
 import React from 'react'
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import Typography from "@material-ui/core/Typography";
 
 export const TemperatureInfo = (props: any) => {
-    return <div style={{border: '1px solid black', width: '200px'}}>
-      <h2>{props.name}</h2>
-       {props.temp} C°
-    </div>
+    return <Card  style={{margin: '10px', width: '30vw'}}>
+        <CardContent>
+            <Typography variant="body2" color="textSecondary" component="p">
+               {props.name}
+            </Typography>
+            <Typography variant="body2" color="textSecondary" component="p">
+                {props.temp} C°
+                </Typography>
+        </CardContent>
+    </Card>
 }
+
