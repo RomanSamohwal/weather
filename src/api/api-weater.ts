@@ -1,5 +1,5 @@
-import axios from "axios";
-import {WeatherObj} from "../bll/weather-reducer";
+import axios from 'axios';
+import {WeatherObj, WeathersType} from "../bll/weather-reducer";
 import {formWeatherObj} from "../utils/formWeatherObj";
 
 const API_KEY = 'f49f252e14653d371d0e45f5c7398f20';
@@ -9,21 +9,26 @@ const instance = axios.create({
 })
 
 export const ApiWeather = {
-    getWeatherCheckedCity: async (city: string) : Promise<WeatherObj> => {
-        const response = await instance.get<responseWeather>(`data/2.5/weather?q=${city}&appid=${API_KEY}`);
+    getWeatherCheckedCity: async (city: string): Promise<WeatherObj> => {
+        const response = await instance.get<Data>(`data/2.5/weather?q=${city}&appid=${API_KEY}`);
         return formWeatherObj(response, city)
     },
-    getUpdatedCheckedCity: async (id: number, city: string) : Promise<WeatherObj> => {
-        const response = await instance.get<responseWeather>(`data/2.5/weather?id=${id}&appid=${API_KEY}`);
+    getUpdatedWeatherCheckedCity: async (id: number, city: string): Promise<WeatherObj> => {
+        const response = await instance.get<Data>(`data/2.5/weather?id=${id}&appid=${API_KEY}`);
         return formWeatherObj(response, city)
+    },
+    updateCheckedWeatherCityAll: async (cities: Array<number>, weathers: WeathersType) => {
+        const response = await Promise.all(cities.map(id => {
+            return instance.get<Data>(`data/2.5/weather?id=${id}&appid=${API_KEY}`)
+        }))
+        return response.map(w => formWeatherObj(w, weathers[w.data.id].name)).
+                         reduce((ac: WeathersType, w) => {
+                                  ac[w.id] = w
+                                  return ac }, {})
     }
 }
 
 //types
-export type responseWeather = {
-    data: Data
-}
-
 export type Data = {
     base: string
     clouds: { all: number }

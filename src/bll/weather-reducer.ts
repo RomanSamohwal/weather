@@ -2,12 +2,22 @@ import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {ApiWeather} from "../api/api-weater";
 import {addCity} from "./cities-reducer";
 
+export const updateWeatherAll = createAsyncThunk(
+    'weathers/updateWeatherAll',
+    async (param: {cities: Array<number>, weathers: WeathersType}  ,thunkAPI) => {
+        try {
+            const weather = await ApiWeather.updateCheckedWeatherCityAll(param.cities, param.weathers)
+            /*return {weather}*/
+        } catch (e) {
+
+        }
+    });
+
 export const updateWeather = createAsyncThunk(
     'weathers/updateWeather',
     async ( param:{id: number, city: string},thunkAPI) => {
         try {
-            const weather = await ApiWeather.getUpdatedCheckedCity(param.id, param.city)
-            /*thunkAPI.dispatch(addCity({cityId: weather.id}))*/
+            const weather = await ApiWeather.getUpdatedWeatherCheckedCity(param.id, param.city)
             return {weather}
         } catch (e) {
 
@@ -29,7 +39,7 @@ export const fetchWeather = createAsyncThunk(
 
 const slice = createSlice({
     name: 'weathers',
-    initialState: {} as InitType,
+    initialState: {} as WeathersType,
     reducers: {
         addWeathers(state, action: PayloadAction<{ weathers: any }>) {
             return action.payload.weathers
@@ -66,7 +76,7 @@ const slice = createSlice({
 export const weathersReducer = slice.reducer
 export const {addWeathers, deleteCityWeather} = slice.actions
 
-export type InitType = {
+export type WeathersType = {
   [key: string]: WeatherObj
 }
 

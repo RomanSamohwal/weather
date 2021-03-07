@@ -2,15 +2,16 @@ import React, {useEffect, useState} from 'react';
 import {restoreCities, restoreWeathers, saveCities, saveWeathers} from '../utils/localStorage';
 import {useDispatch, useSelector} from "react-redux";
 import {addTrackCities} from '../bll/cities-reducer';
-import {addWeathers, InitType} from '../bll/weather-reducer';
+import {addWeathers, WeathersType} from '../bll/weather-reducer';
 import {WeathersDisplayContainer} from '../features/weathers/WeathersDisplayContainer';
 import {Temperatures} from "../features/temperature/Temperatures";
 import {AppRootStateType} from "../bll/store";
 import {SearchComponent} from "../features/search/SearchComponent";
+import { UpdateAllComponent } from '../features/update/UpdateAll';
 
 function App() {
 
-    let weathers: InitType | any = useSelector<AppRootStateType>(state => state.weathers)
+    let weathers: WeathersType | any = useSelector<AppRootStateType>(state => state.weathers)
     let cities: Array<number> | any = useSelector<AppRootStateType>(state => state.cities.trackCities)
 
     const dispatch = useDispatch()
@@ -35,6 +36,7 @@ function App() {
         <div>
             <Temperatures weathers = {weathers}/>
             <SearchComponent/>
+            <UpdateAllComponent cities = {cities} dispatch = {dispatch} weathers = {weathers}/>
             <WeathersDisplayContainer cities = {cities} weathers = {weathers}/>
         </div>
     );

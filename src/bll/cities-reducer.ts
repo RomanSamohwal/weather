@@ -15,7 +15,7 @@ export const fetchSearchCities = createAsyncThunk(
 const slice = createSlice({
         name: 'cites',
         initialState: {
-            trackCities: [] as trackCitiesType,
+            trackCities: [] as Array<number>,
             searchCities: []
         },
         reducers: {
@@ -25,7 +25,7 @@ const slice = createSlice({
                     state.trackCities.unshift(action.payload.cityId)
                 }
             },
-            addTrackCities(state, action: PayloadAction<{ cities: trackCitiesType }>) {
+            addTrackCities(state, action: PayloadAction<{ cities: Array<number> }>) {
                 state.trackCities = action.payload.cities
             },
             // @ts-ignore
@@ -45,6 +45,3 @@ const slice = createSlice({
 
 export const citiesReducer = slice.reducer
 export const {addCity, addTrackCities, deleteCity} = slice.actions
-
-
-type trackCitiesType = Array<number>
