@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react'
-import {deleteCityWeather, WeatherObj} from "../bll/weather-reducer";
+import {deleteCityWeather, updateWeather, WeatherObj} from "../bll/weather-reducer";
 import ArrowImg from  '../assests/img/arrow.jpg'
 import {useDispatch} from "react-redux";
 import { deleteCity } from '../bll/cities-reducer';
@@ -13,11 +13,10 @@ export const WeathersInfo = React.memo((props: propsType) => {
     const dispatch = useDispatch()
 
     const onUpdateHandler = () => {
-        alert('update')
+        dispatch(updateWeather({id: props.data.id, city: props.data.name}))
     }
 
     const onDeleteHandler = () => {
-        debugger
         dispatch(deleteCityWeather({id: props.data.id}))
         dispatch(deleteCity({id: props.data.id}))
     }

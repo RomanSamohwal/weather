@@ -13,7 +13,7 @@ export const ApiWeather = {
         const response = await instance.get<responseWeather>(`data/2.5/weather?q=${city}&appid=${API_KEY}`);
         return formWeatherObj(response, city)
     },
-    getUpdatedCheckedCity: async (id: string, city: string) : Promise<WeatherObj> => {
+    getUpdatedCheckedCity: async (id: number, city: string) : Promise<WeatherObj> => {
         const response = await instance.get<responseWeather>(`data/2.5/weather?id=${id}&appid=${API_KEY}`);
         return formWeatherObj(response, city)
     }

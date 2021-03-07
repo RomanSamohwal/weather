@@ -2,6 +2,18 @@ import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {ApiWeather} from "../api/api-weater";
 import {addCity} from "./cities-reducer";
 
+export const updateWeather = createAsyncThunk(
+    'weathers/updateWeather',
+    async ( param:{id: number, city: string},thunkAPI) => {
+        try {
+            const weather = await ApiWeather.getUpdatedCheckedCity(param.id, param.city)
+            /*thunkAPI.dispatch(addCity({cityId: weather.id}))*/
+            return {weather}
+        } catch (e) {
+
+        }
+    });
+
 export const fetchWeather = createAsyncThunk(
     'weathers/fetchWeather',
     async (city: string, thunkAPI) => {
@@ -40,6 +52,13 @@ const slice = createSlice({
                 // @ts-ignore
                 state[action.payload.cityId] = {}
             }
+        });
+
+        builder.addCase(updateWeather.fulfilled, (state, action) => {
+           /* if (action.payload.cityId !== undefined) {*/
+                // @ts-ignore
+                state[action.payload.weather.id] = action.payload.weather
+            /*}*/
         });
     }
 })
