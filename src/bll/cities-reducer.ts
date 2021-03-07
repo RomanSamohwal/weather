@@ -1,5 +1,6 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {ApiCity} from '../api/api-city';
+import {setAppError} from "./app-reducer";
 
 export const fetchSearchCities = createAsyncThunk(
     'cites/fetchCities',
@@ -7,7 +8,8 @@ export const fetchSearchCities = createAsyncThunk(
         try {
             return await ApiCity.getCity(city)
         } catch (e) {
-
+            thunkAPI.dispatch(setAppError({error: String(e)}))
+            return thunkAPI.rejectWithValue(null)
         }
     });
 
@@ -19,7 +21,7 @@ const slice = createSlice({
             searchCities: []
         },
         reducers: {
-            addCity(state, action: PayloadAction<{ cityId: number }>) {
+            addCity(state,  action: PayloadAction<{ cityId: number }>) {
                 let findCity = state.trackCities.find(e => e === action.payload.cityId)
                 if (!findCity) {
                     state.trackCities.unshift(action.payload.cityId)

@@ -8,6 +8,8 @@ import {Temperatures} from "../features/temperature/Temperatures";
 import {AppRootStateType} from "../bll/store";
 import {SearchComponent} from "../features/search/SearchComponent";
 import {UpdateAllComponent} from '../features/update/UpdateAll';
+import {ErrorSnackbar} from "../components/error/ErrorSnackbar";
+import { Loading } from '../common/progress/Loading';
 
 export function useInterval(callback: any, delay : any) {
     const savedCallback = useRef();
@@ -34,6 +36,8 @@ function App() {
 
     let weathers: WeathersType | any = useSelector<AppRootStateType>(state => state.weathers)
     let cities: Array<number> | any = useSelector<AppRootStateType>(state => state.cities.trackCities)
+    let error = useSelector<AppRootStateType>(state => state.app.error)
+    let status = useSelector<AppRootStateType>(state => state.app.status)
 
     const dispatch = useDispatch()
     const [firstLoading, setFirstLoading] = useState(true)
@@ -64,6 +68,8 @@ function App() {
             <SearchComponent dispatch={dispatch}/>
             <UpdateAllComponent onClickHandler={onUpdateAllHandler}/>
             <WeathersDisplayContainer cities={cities} weathers={weathers}/>
+            {error && <ErrorSnackbar/>}
+            {status === 'loading' && <Loading/>}
         </>
 }
 

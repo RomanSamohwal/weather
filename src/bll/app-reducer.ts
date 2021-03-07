@@ -9,17 +9,17 @@ const slice = createSlice({
 
     } as InitialStateType,
     reducers: {
-        setAppErrorAC(state, action: PayloadAction<{ error: string | null }>) {
+        setAppError(state, action: PayloadAction<{ error: string | null }>) {
             state.error = action.payload.error
         },
-        setAppStatusAC(state, action: PayloadAction<{ status: RequestStatusType }>) {
+        setAppStatus(state, action: PayloadAction<{ status: RequestStatusType }>) {
             state.status = action.payload.status
         }
     }
 })
 
 export const appReducer = slice.reducer
-export const {setAppErrorAC, setAppStatusAC} = slice.actions
+export const {setAppError, setAppStatus} = slice.actions
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 

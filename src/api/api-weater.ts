@@ -9,9 +9,9 @@ const instance = axios.create({
 })
 
 export const ApiWeather = {
-    getWeatherCheckedCity: async (city: string): Promise<WeatherObj> => {
+    getWeatherCheckedCity: async (city: string) => {
         const response = await instance.get<Data>(`data/2.5/weather?q=${city}&appid=${API_KEY}`);
-        return formWeatherObj(response, city)
+        return response
     },
     getUpdatedWeatherCheckedCity: async (id: number, city: string): Promise<WeatherObj> => {
         const response = await instance.get<Data>(`data/2.5/weather?id=${id}&appid=${API_KEY}`);
