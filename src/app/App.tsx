@@ -7,9 +7,7 @@ import {WeathersDisplayContainer} from '../features/weathers/WeathersDisplayCont
 import {Temperatures} from "../features/temperature/Temperatures";
 import {AppRootStateType} from "../bll/store";
 import {SearchComponent} from "../features/search/SearchComponent";
-import { UpdateAllComponent } from '../features/update/UpdateAll';
-import {Card} from "@material-ui/core";
-import RecipeReviewCard from '../components/card/Cards';
+import {UpdateAllComponent} from '../features/update/UpdateAll';
 
 function App() {
 
@@ -46,11 +44,10 @@ function App() {
 
     return (
         <div>
-            <RecipeReviewCard/>
-            {/* <Temperatures weathers={weathers}/>
+             <Temperatures weathers={weathers}/>
             <SearchComponent dispatch = {dispatch}/>
             <UpdateAllComponent onClickHandler={onUpdateAllHandler}/>
-            <WeathersDisplayContainer cities={cities} weathers={weathers}/>*/}
+            <WeathersDisplayContainer cities={cities} weathers={weathers}/>
         </div>
     );
 }

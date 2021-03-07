@@ -1,10 +1,10 @@
 import React from 'react'
-import {WeathersInfo} from '../../components/WeatherInfo'
+import {RecipeReviewCard} from "../../components/card/Cards";
 
 export const WeathersDisplayContainer = React.memo((props : any) => {
 
     return <div style={{display: "flex", justifyContent: "center"}}>
-        {props.cities.length > 0 ? props.cities.map((id: number) => <WeathersInfo data={props.weathers[id]} key={id}/>)
+        {props.cities.length > 0 ? props.cities.map((id: number) => <RecipeReviewCard data={props.weathers[id]} key={id}/>)
                                  : ''}
     </div>
 })
