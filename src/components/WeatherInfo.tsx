@@ -1,12 +1,27 @@
-import React from 'react'
-import {WeatherObj} from "../bll/weather-reducer";
+import React, {useCallback} from 'react'
+import {deleteCityWeather, WeatherObj} from "../bll/weather-reducer";
 import ArrowImg from  '../assests/img/arrow.jpg'
+import {useDispatch} from "react-redux";
+import { deleteCity } from '../bll/cities-reducer';
 
 type propsType = {
     data: WeatherObj
 }
 
 export const WeathersInfo = React.memo((props: propsType) => {
+
+    const dispatch = useDispatch()
+
+    const onUpdateHandler = () => {
+        alert('update')
+    }
+
+    const onDeleteHandler = () => {
+        debugger
+        dispatch(deleteCityWeather({id: props.data.id}))
+        dispatch(deleteCity({id: props.data.id}))
+    }
+
     return <div style={{border: '1px solid black', width: '400px', padding: '5px', margin: '5px'}}>
         <div>город {props.data.name}</div>
         <div>температура {props.data.temp} C°</div>
@@ -17,7 +32,7 @@ export const WeathersInfo = React.memo((props: propsType) => {
         <div>влажность {props.data.humidity} %</div>
         <div>ветер {props.data.wind} м/c</div>
         <div>дата последнего обновления {props.data.date}</div>
-        <button>удалить</button>
-        <button>обновить</button>
+        <button onClick={onDeleteHandler}>удалить</button>
+        <button onClick={onUpdateHandler}>обновить</button>
     </div>
 })

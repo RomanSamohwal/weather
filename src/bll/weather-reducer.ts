@@ -21,6 +21,10 @@ const slice = createSlice({
     reducers: {
         addWeathers(state, action: PayloadAction<{ weathers: any }>) {
             return action.payload.weathers
+        },
+        deleteCityWeather(state, action: PayloadAction<{ id: number }>) {
+            debugger
+            delete state[action.payload.id]
         }
     },
     extraReducers: builder => {
@@ -41,7 +45,7 @@ const slice = createSlice({
 })
 
 export const weathersReducer = slice.reducer
-export const {addWeathers} = slice.actions
+export const {addWeathers, deleteCityWeather} = slice.actions
 
 export type InitType = {
   [key: string]: WeatherObj
