@@ -2,13 +2,8 @@ import axios from 'axios';
 
 const API_KEY = 'f49f252e14653d371d0e45f5c7398f20';
 
-const settings = {
-    withCredentials: true,
-}
-
 const instance = axios.create({
-    baseURL: 'http://api.openweathermap.org/',
-    ...settings
+    baseURL: 'https://api.openweathermap.org/',
 })
 
 export const ApiWeather = {
