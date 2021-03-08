@@ -1,15 +1,17 @@
-import React, {useCallback} from 'react';
-import {Checkbox} from "@material-ui/core";
+import React from 'react';
+import {updateWeatherAll} from '../../bll/weather-reducer';
+import {useInterval} from './useInterval';
+import {useDispatch} from 'react-redux';
 
-export const UpdateAllComponent = React.memo((props: any) => {
+export const UpdateAllComponent = (props: any) => {
 
-    const onclickHandler = useCallback(() => {
-        setTimeout(() => {
-            props.onClickHandler()
-        }, 1000)
-    }, [props.onClickHandler])
+    const dispatch = useDispatch()
+    const onUpdateAllHandler = () => {
+        dispatch(updateWeatherAll())
+    }
+    useInterval(onUpdateAllHandler, 3)
 
-    return <div style={{width: '100vw', display: 'flex', justifyContent: 'center'}}>
-        <div>автообновление 5с <Checkbox onClick={onclickHandler}/></div>
-    </div>
-})
+    return <></>
+}
+
+

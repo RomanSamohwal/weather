@@ -1,6 +1,7 @@
 import {WeathersType, WeatherObj} from '../bll/weather-reducer';
 
 export const MaxMinTemperature = (obj: WeathersType) => {
+
     let arr = Object.values(obj)
     let max = Math.max.apply(null, arr.map((value: WeatherObj) => {
         return value.temp_max

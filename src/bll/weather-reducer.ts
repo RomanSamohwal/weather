@@ -1,16 +1,26 @@
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {ApiWeather} from "../api/api-weater";
-import {addCity} from "./cities-reducer";
-import {formWeatherObj} from "../utils/formWeatherObj";
-import { setAppError } from "./app-reducer";
+import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {ApiWeather} from '../api/api-weater';
+import {addCity} from './cities-reducer';
+import {formWeatherObj} from '../utils/formWeatherObj';
+import {setAppError, setAppStatus} from './app-reducer';
 
 export const updateWeatherAll = createAsyncThunk(
     'weathers/updateWeatherAll',
-    async (param: {cities: Array<number>, weathers: WeathersType}  ,thunkAPI) => {
+    async (param  ,thunkAPI) => {
         try {
-            const weathers = await ApiWeather.updateCheckedWeatherCityAll(param.cities, param.weathers)
+            const state = thunkAPI.getState()
+            thunkAPI.dispatch(setAppStatus({status: 'loading'}))
+            // @ts-ignore
+            const response = await ApiWeather.updateCheckedWeatherCityAll(state['cities'].trackCities)
+            thunkAPI.dispatch(setAppStatus({status: 'succeeded'}))
+            // @ts-ignore
+            const weathers =  response.map(w => formWeatherObj(w, state['weathers'][w.data.id].name)).
+            reduce((ac: WeathersType, w) => {
+                ac[w.id] = w
+                return ac }, {})
             return {weathers}
         } catch (e) {
+            thunkAPI.dispatch(setAppStatus({status: 'failed'}))
             thunkAPI.dispatch(setAppError({error: String(e)}))
             return thunkAPI.rejectWithValue(null)
         }
@@ -18,11 +28,15 @@ export const updateWeatherAll = createAsyncThunk(
 
 export const updateWeather = createAsyncThunk(
     'weathers/updateWeather',
-    async ( param:{id: number, city: string},thunkAPI) => {
+    async ( param:{id: number, city: string}, thunkAPI) => {
         try {
-            const weather = await ApiWeather.getUpdatedWeatherCheckedCity(param.id, param.city)
+            thunkAPI.dispatch(setAppStatus({status: 'loading'}))
+            const response = await ApiWeather.getUpdatedWeatherCheckedCity(param.id)
+            thunkAPI.dispatch(setAppStatus({status: 'succeeded'}))
+            const weather = formWeatherObj(response, param.city)
             return {weather}
         } catch (e) {
+            thunkAPI.dispatch(setAppStatus({status: 'failed'}))
             thunkAPI.dispatch(setAppError({error: String(e)}))
             return thunkAPI.rejectWithValue(null)
         }
@@ -32,11 +46,14 @@ export const fetchWeather = createAsyncThunk(
     'weathers/fetchWeather',
     async (city: string, thunkAPI) => {
         try {
+            thunkAPI.dispatch(setAppStatus({status: 'loading'}))
             const response = await ApiWeather.getWeatherCheckedCity(city)
             let  weather = formWeatherObj(response, city)
             thunkAPI.dispatch(addCity({cityId: weather.id}))
+            thunkAPI.dispatch(setAppStatus({status: 'succeeded'}))
             return {weather}
         } catch (e) {
+            thunkAPI.dispatch(setAppStatus({status: 'failed'}))
             thunkAPI.dispatch(setAppError({error: String(e)}))
             return thunkAPI.rejectWithValue(null)
         }
@@ -88,6 +105,7 @@ export type WeathersType = {
   [key: string]: WeatherObj
 }
 
+//types
 export type WeatherObj = {
     id: number
     name: string

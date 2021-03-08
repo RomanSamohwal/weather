@@ -1,4 +1,4 @@
-import {WeatherObj} from "../bll/weather-reducer";
+import {WeatherObj} from '../bll/weather-reducer';
 
 export const formWeatherObj = (params: any, city: string): WeatherObj => {
     return {
@@ -29,7 +29,7 @@ export const formDate = () => {
         second: 'numeric'
     };
     // @ts-ignore
-    return  date.toLocaleString("ru", options)
+    return  date.toLocaleString('ru', options)
 }
 
 const convertTemp = (temp: number) => {

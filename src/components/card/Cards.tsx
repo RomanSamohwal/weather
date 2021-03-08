@@ -7,11 +7,11 @@ import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
 import {red} from '@material-ui/core/colors';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
-import {ButtonComponent} from "../button/Bytton";
-import {useDispatch} from "react-redux";
-import {deleteCityWeather, updateWeather} from "../../bll/weather-reducer";
-import {deleteCity} from "../../bll/cities-reducer";
-
+import {ButtonComponent} from '../button/Bytton';
+import {useDispatch} from 'react-redux';
+import {deleteCityWeather, updateWeather} from '../../bll/weather-reducer';
+import {deleteCity} from '../../bll/cities-reducer';
+import style from '../../common/css/Common.module.css'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -54,28 +54,30 @@ export const RecipeReviewCard = (props: any) => {
                 title={props.data.name}
             />
             <CardContent>
-                <Typography variant="body2" color="textSecondary" component="p">
-                    Температура: <img src={`https://openweathermap.org/img/w/${props.data.icon}.png`}/> {props.data.temp} C°
+                <Typography variant='body2' color='textSecondary' component='p'>
+                    Температура: <img
+                    src={`https://openweathermap.org/img/w/${props.data.icon}.png`}/> {props.data.temp} C°
                 </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
+                <Typography variant='body2' color='textSecondary' component='p'>
                     Влажность : {props.data.humidity}%
                 </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
+                <Typography variant='body2' color='textSecondary' component='p'>
                     Атмосферное давление : {props.data.pressure} мм.рт.ст
                 </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                    Сила и направление ветра : {props.data.wind} м/с <ArrowUpwardIcon style={{transform: `rotate(${props.data.deg}deg)`}}/>
+                <Typography variant='body2' color='textSecondary' component='p'>
+                    Сила и направление ветра : {props.data.wind} м/с <ArrowUpwardIcon
+                    style={{transform: `rotate(${props.data.deg}deg)`}}/>
                 </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
+                <Typography variant='body2' color='textSecondary' component='p'>
                     Последнее обновление данных :
                 </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
+                <Typography variant='body2' color='textSecondary' component='p'>
                     {props.data.date}
                 </Typography>
             </CardContent>
 
             <CardActions disableSpacing>
-                <div style={{width: '100%', display: 'flex', justifyContent: 'space-between'}}>
+                <div className={style.container}  style={{justifyContent: 'space-between'}}>
                     <ButtonComponent onClickHandler={onDeleteHandler} title={'удалить'} color={'secondary'}/>
                     <ButtonComponent onClickHandler={onUpdateHandler} title={'обновить'} color={'primary'}/>
                 </div>

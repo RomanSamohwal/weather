@@ -2,7 +2,7 @@ import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import thunkMiddleware from 'redux-thunk'
 import {appReducer} from './app-reducer';
 import { citiesReducer } from './cities-reducer';
-import {weathersReducer} from "./weather-reducer";
+import {weathersReducer} from './weather-reducer';
 
 
 const rootReducer = combineReducers(
@@ -17,9 +17,6 @@ export const store = configureStore({
     reducer: rootReducer,
     middleware: getDefaultMiddleware => getDefaultMiddleware().prepend(thunkMiddleware)
 })
-
-// @ts-ignore
-window.store = store
 
 export type RootReducerType = typeof rootReducer
 export type AppRootStateType = ReturnType<RootReducerType>

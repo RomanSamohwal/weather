@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {ApiCity} from '../api/api-city';
-import {setAppError} from "./app-reducer";
+import {setAppError} from './app-reducer';
 
 export const fetchSearchCities = createAsyncThunk(
     'cites/fetchCities',

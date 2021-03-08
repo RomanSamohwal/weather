@@ -1,36 +1,15 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {restoreCities, restoreWeathers, saveCities, saveWeathers} from '../utils/localStorage';
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from 'react-redux';
 import {addTrackCities} from '../bll/cities-reducer';
 import {addWeathers, updateWeatherAll, WeathersType} from '../bll/weather-reducer';
 import {WeathersDisplayContainer} from '../features/weathers/WeathersDisplayContainer';
-import {Temperatures} from "../features/temperature/Temperatures";
-import {AppRootStateType} from "../bll/store";
-import {SearchComponent} from "../features/search/SearchComponent";
-import {UpdateAllComponent} from '../features/update/UpdateAll';
-import {ErrorSnackbar} from "../components/error/ErrorSnackbar";
-import { Loading } from '../common/progress/Loading';
-
-export function useInterval(callback: any, delay : any) {
-    const savedCallback = useRef();
-
-    useEffect(() => {
-        savedCallback.current = callback;
-    }, [callback]);
-
-    // Set up the interval.
-    useEffect(() => {
-        function tick() {
-            // @ts-ignore
-            savedCallback.current();
-        }
-        if (delay !== null) {
-            let id = setInterval(tick, delay);
-            return () => clearInterval(id);
-        }
-    }, [delay]);
-}
-
+import {Temperatures} from '../features/temperature/Temperatures';
+import {AppRootStateType} from '../bll/store';
+import {SearchComponent} from '../features/search/SearchComponent';
+import {ErrorSnackbar} from '../components/error/ErrorSnackbar';
+import SimpleBackdrop from '../common/progress/Loading';
+import {Settings} from '../features/update/Settings';
 
 function App() {
 
@@ -41,15 +20,13 @@ function App() {
 
     const dispatch = useDispatch()
     const [firstLoading, setFirstLoading] = useState(true)
-
-    const onUpdateAllHandler = () => {
-        dispatch(updateWeatherAll({cities: cities, weathers: weathers}))
-    }
+    const [flag, setFlag] = useState(false)
 
     useEffect(() => {
         if (firstLoading) {
             dispatch(addTrackCities({cities: restoreCities()}))
             dispatch(addWeathers({weathers: restoreWeathers()}))
+            dispatch(updateWeatherAll())
             setFirstLoading(false)
         }
     }, [firstLoading, dispatch])
@@ -61,16 +38,21 @@ function App() {
         }
     }, [cities, weathers])
 
-    /*useInterval(onUpdateAllHandler,3000)*/
+    if (status === 'loading') {
+        return <SimpleBackdrop/>
+    }
+
+    const changeFlag = () => {
+        setFlag(!flag)
+    }
 
     return <>
-            <Temperatures weathers={weathers}/>
-            <SearchComponent dispatch={dispatch}/>
-            <UpdateAllComponent onClickHandler={onUpdateAllHandler}/>
-            <WeathersDisplayContainer cities={cities} weathers={weathers}/>
-            {error && <ErrorSnackbar/>}
-            {status === 'loading' && <Loading/>}
-        </>
+        <Temperatures weathers={weathers}/>
+        <SearchComponent dispatch={dispatch}/>
+        <Settings changeFlag={changeFlag} flag={flag}/>
+        <WeathersDisplayContainer cities={cities} weathers={weathers}/>
+        {error && <ErrorSnackbar/>}
+    </>
 }
 
 export default App;
