@@ -49,13 +49,13 @@ export const RecipeReviewCard = (props: any) => {
         dispatch(deleteCity({id: props.data.id}))
     }
     return (
-        <Card className={classes.root} style={{margin: '10px'}}>
+        <Card className={classes.root} style={{margin: '10px', position: "relative", width: '20em'}}>
             <CardHeader
                 title={props.data.name}
             />
             <CardContent>
                 <Typography variant='body2' color='textSecondary' component='p'>
-                    Температура: <img
+                    Температура: <img style={{position: 'absolute', top: '6px', right: '15px'}}
                     src={`https://openweathermap.org/img/w/${props.data.icon}.png`}/> {props.data.temp} C°
                 </Typography>
                 <Typography variant='body2' color='textSecondary' component='p'>
@@ -66,7 +66,8 @@ export const RecipeReviewCard = (props: any) => {
                 </Typography>
                 <Typography variant='body2' color='textSecondary' component='p'>
                     Сила и направление ветра : {props.data.wind} м/с <ArrowUpwardIcon
-                    style={{transform: `rotate(${props.data.deg}deg)`}}/>
+                    style={{transform: `rotate(${props.data.deg}deg)`,
+                            position: 'absolute', top: '139px', right: '17px' }}/>
                 </Typography>
                 <Typography variant='body2' color='textSecondary' component='p'>
                     Последнее обновление данных :
