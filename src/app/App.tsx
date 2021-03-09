@@ -10,6 +10,7 @@ import {SearchComponent} from '../features/search/SearchComponent';
 import {ErrorSnackbar} from '../components/error/ErrorSnackbar';
 import SimpleBackdrop from '../common/progress/Loading';
 import {Settings} from '../features/update/Settings';
+import {UpdateAllComponent} from "../features/update/UpdateAll";
 
 function App() {
 
@@ -51,6 +52,7 @@ function App() {
         <SearchComponent dispatch={dispatch}/>
         <Settings changeFlag={changeFlag} flag={flag}/>
         <WeathersDisplayContainer cities={cities} weathers={weathers}/>
+        <UpdateAllComponent delay = {10}/>
         {error && <ErrorSnackbar/>}
     </>
 }

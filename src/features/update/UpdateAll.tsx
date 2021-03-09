@@ -9,7 +9,7 @@ export const UpdateAllComponent = (props: any) => {
     const onUpdateAllHandler = () => {
         dispatch(updateWeatherAll())
     }
-    useInterval(onUpdateAllHandler, 3)
+    useInterval(onUpdateAllHandler, props.delay)
 
     return <></>
 }

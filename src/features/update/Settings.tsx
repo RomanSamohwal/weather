@@ -11,6 +11,6 @@ export const Settings = React.memo((props: any) => {
 
     return <div style={{width: '100vw'}} className={style.container}>
         <div>автообновление 5с <Checkbox onClick={onClickHandler} checked={props.flag}/></div>
-        {props.flag && <UpdateAllComponent/>}
+        {props.flag && <UpdateAllComponent delay = {5}/>}
     </div>
 })
