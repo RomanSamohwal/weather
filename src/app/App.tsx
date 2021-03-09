@@ -52,7 +52,7 @@ function App() {
         <SearchComponent dispatch={dispatch}/>
         <Settings changeFlag={changeFlag} flag={flag}/>
         <WeathersDisplayContainer cities={cities} weathers={weathers}/>
-        <UpdateAllComponent delay = {10}/>
+        <UpdateAllComponent delay = {50}/>
         {error && <ErrorSnackbar/>}
     </>
 }
